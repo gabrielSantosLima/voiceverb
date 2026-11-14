@@ -16,9 +16,9 @@
     "dev": "electron . --dev",
     "icons": "node scripts/make-icons.mjs",
     "check": "node --check app.js && node --check audio.js && node --check electron/main.js && node --check electron/preload.js && node --check sw.js && node --check scripts/make-icons.mjs",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder --win",
-    "dist:linux": "electron-builder --linux"
+    "pack": "electron-builder --dir --publish never",
+    "dist": "electron-builder --win --publish never",
+    "dist:linux": "electron-builder --linux --publish never"
   },
   "devDependencies": {
     "electron": "^45.3.2",
