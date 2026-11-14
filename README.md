@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/icon-256.png" alt="voiceverb" width="200" />
+<img src="assets/icon-256.png" alt="voiceverb" width="120" />
 
 # voiceverb
 
