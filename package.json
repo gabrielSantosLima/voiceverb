@@ -1,0 +1,75 @@
+{
+  "name": "voiceverb",
+  "productName": "voiceverb",
+  "version": "0.0.0",
+  "description": "Live microphone reverb, EQ and voice effects for calls, with a system-tray desktop app and global hotkeys.",
+  "private": true,
+  "main": "electron/main.js",
+  "author": "voiceverb",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielSantosLima/voiceverb.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "icons": "node scripts/make-icons.mjs",
+    "check": "node --check app.js && node --check audio.js && node --check electron/main.js && node --check electron/preload.js && node --check sw.js && node --check scripts/make-icons.mjs",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win",
+    "dist:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "app.voiceverb.desktop",
+    "productName": "voiceverb",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "index.html",
+      "app.js",
+      "audio.js",
+      "styles.css",
+      "manifest.webmanifest",
+      "sw.js",
+      "icon.svg",
+      "CALL-SETUP.md",
+      "README.md",
+      "assets/**/*",
+      "electron/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "voiceverb",
+      "artifactName": "voiceverb-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "voiceverb-Portable.${ext}"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "tar.gz"
+      ],
+      "category": "AudioVideo",
+      "icon": "assets/icon.png",
+      "artifactName": "voiceverb-Linux.${ext}"
+    }
+  }
+}

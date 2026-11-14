@@ -1,0 +1,65 @@
+name: Build Linux
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build and attach the Linux artifacts to"
+        required: false
+        default: ""
+        type: string
+  workflow_call:
+    inputs:
+      tag:
+        description: "Release tag to build and attach the Linux artifacts to"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run checks
+        run: npm run check
+
+      - name: Build Linux installers
+        run: npm run dist:linux
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: voiceverb-linux
+          path: |
+            release/voiceverb-Linux.AppImage
+            release/voiceverb-Linux.tar.gz
+          if-no-files-found: error
+
+      - name: Attach artifacts to the release
+        if: ${{ inputs.tag != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          gh release upload "$TAG" \
+            release/voiceverb-Linux.AppImage \
+            release/voiceverb-Linux.tar.gz \
+            --clobber
