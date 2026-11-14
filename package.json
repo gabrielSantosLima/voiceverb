@@ -1,7 +1,7 @@
 {
   "name": "voiceverb",
   "productName": "voiceverb",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Live microphone reverb, EQ and voice effects for calls, with a system-tray desktop app and global hotkeys.",
   "private": true,
   "main": "electron/main.js",
